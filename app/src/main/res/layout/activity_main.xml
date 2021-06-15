@@ -28,20 +28,28 @@
         android:id="@+id/viewpager"
         android:layout_below="@+id/tabLayout"
     />
-<!--    <FrameLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="60dp"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        android:id="@+id/relative_layout"-->
-<!--        android:background="@color/purple_500"-->
-<!--        >-->
-<!--        <fragment-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:name="com.example.player.NowPlayingFragment"-->
-<!--            tools:layout="@layout/fragment_now_playing"/>-->
-<!--    </FrameLayout>-->
-
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/relative_layout"
+        android:background="@color/purple_500"
+        >
+        <fragment
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:name="com.example.player.NowPlayingFragment"
+            tools:layout="@layout/fragment_now_playing"/>
+    </FrameLayout>
+<!--<ImageView-->
+<!--    android:layout_width="40dp"-->
+<!--    android:layout_height="40dp"-->
+<!--android:src="@drawable/play"-->
+<!--    android:layout_alignParentBottom="true"-->
+<!--    android:scaleType="fitXY"-->
+<!--    android:layout_margin="20dp"-->
+<!--    android:id="@+id/on"-->
+<!--    />-->
 
 
 </RelativeLayout>

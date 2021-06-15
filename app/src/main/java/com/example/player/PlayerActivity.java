@@ -45,7 +45,9 @@ import static com.example.player.FavListAdapter.mFiles;
 import static com.example.player.MainActivity.musicFiles;
 import static com.example.player.MainActivity.repeatButton;
 import static com.example.player.MainActivity.shuffleButton;
-import static com.example.player.MainActivity.viewPager;
+import static com.example.player.NowPlayingFragment.songArtist1;
+import static com.example.player.NowPlayingFragment.songImage1;
+import static com.example.player.NowPlayingFragment.songName1;
 
 public class PlayerActivity extends AppCompatActivity implements ActionPlaying, ServiceConnection {
      ImageView songImage,chevron,menu,prev,shuffle,repeat,next,playPause,fav,backward,forward;
@@ -57,7 +59,8 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
     Thread playPauseThread,prevThread,nextThread;
     Handler handler =new Handler();
     RelativeLayout layout;
-    static MusicService musicService = null;
+     MusicService musicService = null;
+    int flag;
     static  ArrayList<MusicFiles> listSongs =new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +69,9 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
         setContentView(R.layout.activity_player);
 //        getSupportActionBar().hide();
         initView();
-        getIntentMethod();
 //        Intent intent =new Intent(this,MusicService.class);
 //        bindService(intent,this,BIND_AUTO_CREATE);
+        getIntentMethod();
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -134,7 +137,7 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
                 repeat.setImageResource(R.drawable.ic_baseline_repeat_24);
 
             }
-            viewPager.getAdapter().notifyDataSetChanged();
+//            viewPager.getAdapter().notifyDataSetChanged();
         });
 
         chevron.setOnClickListener(view -> {
@@ -213,9 +216,16 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i =new Intent(this,MainActivity.class);
+        startActivity(i);
+    }
+
     private void getIntentMethod() {
         position = getIntent().getIntExtra("position",-1);
-
+        flag = getIntent().getIntExtra("rrr",0);
         String sender = getIntent().getStringExtra("sender");
         Log.e("sender",sender+""+position);
 
@@ -236,10 +246,9 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
         intent.putExtra("service",position);
         startService(intent);
 
-        if(musicService!=null){
-            musicService.stop();
-            musicService.release();
-        }
+
+        setTexts();
+        setBackGround();
     }
     void play(){
         if(musicService!=null){
@@ -250,6 +259,7 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
 
         musicService.createMediaPlayer(position);
         musicService.start();
+
         seekBar.setMax(musicService.getDuration()/1000);
         total.setText(listSongs.get(position).getDuration());
         if(listSongs.get(position).getFav()==1){
@@ -330,7 +340,7 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
     private void setTexts() {
         Log.e("Textinini", "set image!"+position+" "+listSongs.size());
         setImage();
-setBackGround();
+        setBackGround();
         songName.setText(listSongs.get(position).getTitle());
         artistName.setText(listSongs.get(position).getArtist());
     }
@@ -347,11 +357,7 @@ setBackGround();
         super.onResume();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-//        unbindService(this);
-    }
+
 
     private void forwardBtn() {
         forward.setOnClickListener(view -> {
@@ -454,6 +460,9 @@ setBackGround();
 
             playPause.setImageResource(R.drawable.pause);
         }
+
+        songArtist1.setText(listSongs.get(position).getArtist());
+        songName1.setText(listSongs.get(position).getTitle());
     }
 
     private int getRandom(int i) {
@@ -501,17 +510,7 @@ setBackGround();
             }
             play();
             musicService.showNotification(R.drawable.pause);
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//
-//                uri = listSongs.get(position).getUri();
-//            }
-//            else{
-//                uri =Uri.parse( listSongs.get(position).getPath());
-//            }
-//            setImage();
-//            setTexts();
-//            mediaPlayer.start();
-//            seekBar.setMax(mediaPlayer.getDuration()/1000);
+
             PlayerActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -572,8 +571,11 @@ setBackGround();
             });
 
         }
+        songArtist1.setText(listSongs.get(position).getArtist());
+        songName1.setText(listSongs.get(position).getTitle());
         musicService.onCompleted();
         playPause.setImageResource(R.drawable.pause);
+
     }
 
     private void plaBtn() {
@@ -639,11 +641,15 @@ setBackGround();
                 if (image!=null){
                     Log.e("TAG", "set image!");
                     ImageAnimation(this,songImage,image);
+                    Glide.with(getApplicationContext()).load(image).into(songImage1);
+
                 }
                 else{
                     Log.e("TAG", ":/!");
 
                     Glide.with(getApplicationContext()).load(R.drawable.music).into(songImage);
+                    Glide.with(getApplicationContext()).load(R.drawable.music).into(songImage1);
+
                 }
             }else{
                 Log.e("TAGinini", "set image!"+position+" "+listSongs.size());
@@ -652,6 +658,7 @@ setBackGround();
                 Bitmap image=BitmapFactory.decodeByteArray(image1,0,image1.length);
                 if (image1!=null){
                     Log.e("TAG", "set image!");
+                    Glide.with(getApplicationContext()).load(image).into(songImage1);
 
                     ImageAnimation(this,songImage,image);
                 }
@@ -659,6 +666,8 @@ setBackGround();
                     Log.e("TAG", ":/!");
 
                     Glide.with(getApplicationContext()).load(R.drawable.music).into(songImage);
+                    Glide.with(getApplicationContext()).load(R.drawable.music).into(songImage1);
+
                 }
             }
 //            Log.e("TAG", "Clicked!"+image);
@@ -741,9 +750,13 @@ setBackGround();
         MusicService.MyBinder myBinder = (MusicService.MyBinder)iBinder;
         musicService = myBinder.getService();
         musicService.setCallBack(this);
+
+
+////        Toast.makeText(this,"Connected"+musicService,Toast.LENGTH_SHORT).show();
+//        play();
+        musicService.playMedia(position);
+
         musicService.showNotification(R.drawable.pause);
-//        Toast.makeText(this,"Connected"+musicService,Toast.LENGTH_SHORT).show();
-       play();
 
     }
 

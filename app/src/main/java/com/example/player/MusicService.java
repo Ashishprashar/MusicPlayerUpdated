@@ -32,7 +32,7 @@ import static com.example.player.PlayerActivity.listSongs;
 
 public class MusicService  extends Service implements MediaPlayer.OnCompletionListener{
     IBinder mBinder = new MyBinder();
-    static MediaPlayer mediaPlayer;
+     MediaPlayer mediaPlayer;
     Uri uri;
     int position=-1;
     ArrayList<MusicFiles> musicFiles=new ArrayList<>();
@@ -48,10 +48,6 @@ public class MusicService  extends Service implements MediaPlayer.OnCompletionLi
         Log.e("onBind","method");
         return mBinder;
     }
-
-
-
-
     public class MyBinder extends Binder{
         MusicService getService(){
             return  MusicService.this;
@@ -69,21 +65,20 @@ public class MusicService  extends Service implements MediaPlayer.OnCompletionLi
     public int onStartCommand(Intent intent, int flags, int startId) {
         int myPosition = intent.getIntExtra("service",-1);
         String actionName=intent.getStringExtra("ActionName");
-        if(mediaPlayer==null){
-            createMediaPlayer(myPosition);
-        }
+//        if(mediaPlayer==null){
+//            createMediaPlayer(myPosition);
+//        }
 
 //        if(myPosition!=-1){
 //            Log.e("poiiii",myPosition+""+musicFiles);
 //            playMedia(myPosition);
 //        }
-        Log.e("noti",actionName+"");
 
         if (actionName!=null){
             switch (actionName){
                         case "playPause":
 //                    Log.e("play",listSongs.size()+"");
-                    Log.e("noti",actionName);
+                    Log.e("noti",actionName+position);
                     if(actionPlaying!=null){
                         actionPlaying.playPauseClicked();
                     }
@@ -110,24 +105,24 @@ public class MusicService  extends Service implements MediaPlayer.OnCompletionLi
         return START_STICKY;
     }
 
-    private void playMedia(int StartPosition) {
+    public void playMedia(int StartPosition) {
         musicFiles =listSongs;
         if(listSongs==null){
             Log.e("yesin","yesssss");
         }
         position= StartPosition;
         if(mediaPlayer!=null){
-            stop();
-            release();
+            this.stop();
+            this.release();
             if(musicFiles!=null){
-                createMediaPlayer(position);
-                start();
+                this.createMediaPlayer(position);
+                this.start();
             }
         }else{
-            createMediaPlayer(position);
-            start();
+            this.createMediaPlayer(position);
+            this.start();
         }
-    saveData();
+        this.saveData();
 
     }
 

@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity{
 
     private static final int REQUEST_PERMISSION = 1;
     public static boolean SHOW_MINI_PLAYER = false;
+    ImageView on;
     //    private  int REQUEST_CODE = 0;
     public static ArrayList<MusicFiles> favList=new ArrayList<>();
     static boolean shuffleButton=false,repeatButton=false;
@@ -87,8 +89,12 @@ public class MainActivity extends AppCompatActivity{
         permission();
         loadData();
 
+    }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 
     @Override
@@ -138,7 +144,10 @@ public class MainActivity extends AppCompatActivity{
         String json =sharedPreferences.getString("saved",null);
         String json1 =sharedPreferences.getString("listPlay",null);
         Type type =new TypeToken<ArrayList<MusicFiles>>() {}.getType();
-        listSongs = gson.fromJson(json1,type);
+        if(json1!=null) {
+
+            listSongs = gson.fromJson(json1, type);
+        }
         Log.e("palue",listSongs.size()+"");
 
         musicFiles =gson.fromJson(json,type);
