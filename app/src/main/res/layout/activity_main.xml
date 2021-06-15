@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@drawable/redsalvation"
+    android:layout_height="match_parent">
+
+   <com.google.android.material.tabs.TabLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:background="@color/purple_500"
+       android:id="@+id/tabLayout"
+       app:tabGravity="fill"
+
+       app:tabTextColor="#66ffffff"
+       app:tabMode="fixed"
+       app:tabIndicatorColor="#FFFFFF"
+       app:tabSelectedTextColor="@color/white"
+       app:tabIndicatorAnimationMode="elastic"
+       android:soundEffectsEnabled="false"
+       />
+
+    <androidx.viewpager.widget.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/viewpager"
+        android:layout_below="@+id/tabLayout"
+    />
+<!--    <FrameLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="60dp"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:id="@+id/relative_layout"-->
+<!--        android:background="@color/purple_500"-->
+<!--        >-->
+<!--        <fragment-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:name="com.example.player.NowPlayingFragment"-->
+<!--            tools:layout="@layout/fragment_now_playing"/>-->
+<!--    </FrameLayout>-->
+
+
+
+</RelativeLayout>
