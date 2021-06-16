@@ -157,11 +157,14 @@ public class MainActivity extends AppCompatActivity{
         if(musicFiles==null){
             musicFiles=getMusicFiles(this);
         }
-        for(int i=0;i<musicFiles.size();i++){
-            if(musicFiles.get(i).getFav()==1){
-                favList.add(musicFiles.get(i));
+
+            favList=new ArrayList<>();
+            for(int i=0;i<musicFiles.size();i++){
+                if(musicFiles.get(i).getFav()==1){
+                    favList.add(musicFiles.get(i));
+                }
             }
-        }
+
 //        Log.e("load","happed"+musicFiles.get(0).getFav());
 
     }
@@ -208,7 +211,7 @@ public class MainActivity extends AppCompatActivity{
     private ArrayList<MusicFiles> getMusicFiles(Context context) {
         ArrayList<MusicFiles> tempAudioList = new ArrayList<>();
         ArrayList<String> duplicate=new ArrayList<>();
-
+        albums=new ArrayList<>();
         Uri uri ;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             uri = MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL);

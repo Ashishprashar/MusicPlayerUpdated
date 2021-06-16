@@ -93,6 +93,11 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
 
             }
         });
+        if (shuffleButton) {
+            shuffle.setImageResource(R.drawable.shuffle_on);
+        } else {
+            shuffle.setImageResource(R.drawable.shuffle);
+        }
 
         this.runOnUiThread(new Runnable() {
             @Override
@@ -141,7 +146,8 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
         });
 
         chevron.setOnClickListener(view -> {
-            finish();
+            Intent i =new Intent(this,MainActivity.class);
+            startActivity(i);
         });
         try {
 
@@ -219,8 +225,8 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent i =new Intent(this,MainActivity.class);
-        startActivity(i);
+       Intent i =new Intent(this,MainActivity.class);
+       startActivity(i);
     }
 
     private void getIntentMethod() {
@@ -246,7 +252,12 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
         intent.putExtra("service",position);
         startService(intent);
 
-
+        if(listSongs.get(position).getFav()==1){
+            fav.setImageResource(R.drawable.favorite);
+        }
+        else{
+            fav.setImageResource(R.drawable.empty_heart);
+        }
         setTexts();
         setBackGround();
     }
@@ -262,17 +273,16 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
 
         seekBar.setMax(musicService.getDuration()/1000);
         total.setText(listSongs.get(position).getDuration());
+
+        setTexts();
+        setBackGround();
+        musicService.onCompleted();
         if(listSongs.get(position).getFav()==1){
             fav.setImageResource(R.drawable.favorite);
         }
         else{
             fav.setImageResource(R.drawable.empty_heart);
-
         }
-        setTexts();
-        setBackGround();
-        musicService.onCompleted();
-
 
     }
     private static final float BLUR_RADIUS = 12f;
