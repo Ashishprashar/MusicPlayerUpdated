@@ -122,6 +122,11 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
         return mFiles.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return mFiles.get(position).getId();
+    }
+
     public  class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
         TextView title,artist;
         CircleImageView songImage;

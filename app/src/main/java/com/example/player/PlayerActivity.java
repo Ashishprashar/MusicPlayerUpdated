@@ -59,13 +59,13 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
     Thread playPauseThread,prevThread,nextThread;
     Handler handler =new Handler();
     RelativeLayout layout;
-     MusicService musicService = null;
+    static MusicService musicService = null;
     int flag;
     static  ArrayList<MusicFiles> listSongs =new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setFullscreen();
+//        setFullscreen();
         setContentView(R.layout.activity_player);
 //        getSupportActionBar().hide();
         initView();
@@ -228,12 +228,13 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
        Intent i =new Intent(this,MainActivity.class);
        startActivity(i);
     }
-
+    int rr=0;
     private void getIntentMethod() {
         position = getIntent().getIntExtra("position",-1);
         flag = getIntent().getIntExtra("rrr",0);
         String sender = getIntent().getStringExtra("sender");
-        Log.e("sender",sender+""+position);
+        rr =getIntent().getIntExtra("rrr",1);
+        Log.e("sender",sender+""+rr);
 
         if(sender!=null && sender.equals("albumDetails")){
             listSongs =albumFiles;
@@ -248,8 +249,10 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
 
 
 
+
         Intent intent =new Intent(this,MusicService.class);
         intent.putExtra("service",position);
+        intent.putExtra("rr",rr);
         startService(intent);
 
         if(listSongs.get(position).getFav()==1){
@@ -351,6 +354,7 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
         Log.e("Textinini", "set image!"+position+" "+listSongs.size());
         setImage();
         setBackGround();
+        total.setText(listSongs.get(position).getDuration());
         songName.setText(listSongs.get(position).getTitle());
         artistName.setText(listSongs.get(position).getArtist());
     }
@@ -392,17 +396,17 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
     }
 
     private void nextBtn() {
-        nextThread = new Thread(){
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-            @Override
-            public void run() {
-                super.run();
+//        nextThread = new Thread(){
+//            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+//            @Override
+//            public void run() {
+//                super.run();
                 next.setOnClickListener(view -> {
                     nextClicked();
                 });
-            }
-        };
-        nextThread.start();
+//            }
+//        };
+//        nextThread.start();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -482,17 +486,17 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
     }
 
     private void prevBtn() {
-        prevThread = new Thread(){
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-            @Override
-            public void run() {
-                super.run();
+//        prevThread = new Thread(){
+//            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+//            @Override
+//            public void run() {
+//                super.run();
                 prev.setOnClickListener(view -> {
                     prevClicked();
                 });
-            }
-        };
-        prevThread.start();
+//            }
+//        };
+//        prevThread.start();
     }
 
     public void prevClicked() {
@@ -589,16 +593,16 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
     }
 
     private void plaBtn() {
-        playPauseThread = new Thread(){
-            @Override
-            public void run() {
-                super.run();
+//        playPauseThread = new Thread(){
+//            @Override
+//            public void run() {
+//                super.run();
                 playPause.setOnClickListener(view -> {
                     playPauseClicked();
                 });
-            }
-        };
-        playPauseThread.start();
+//            }
+//        };
+//        playPauseThread.start();
     }
 
     public void playPauseClicked() {
@@ -609,37 +613,36 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
             musicService.showNotification(R.drawable.play);
 
             musicService.pause();
-            seekBar.setMax(musicService.getDuration()/1000);
-            PlayerActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if(musicService!=null){
-                        int currentPosition=musicService.getCurrentPosition()/1000;
-                        seekBar.setProgress(currentPosition);
-
-                    }
-                    handler.postDelayed(this,1000);
-                }
-            });
+            //            PlayerActivity.this.runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    if(musicService!=null){
+//                        int currentPosition=musicService.getCurrentPosition()/1000;
+//                        seekBar.setProgress(currentPosition);
+//
+//                    }
+//                    handler.postDelayed(this,1000);
+//                }
+//            });
         }
         else{
             playPause.setImageResource(R.drawable.pause);
             musicService.showNotification(R.drawable.pause);
 
             musicService.start();
-            seekBar.setMax(musicService.getDuration()/1000 );
-            PlayerActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if(musicService!=null){
-                        int currentPosition=musicService.getCurrentPosition()/1000;
-                        seekBar.setProgress(currentPosition);
-
-                    }
-                    handler.postDelayed(this,1000);
-                }
-            });
+            //            PlayerActivity.this.runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    if(musicService!=null){
+//                        int currentPosition=musicService.getCurrentPosition()/1000;
+//                        seekBar.setProgress(currentPosition);
+//
+//                    }
+//                    handler.postDelayed(this,1000);
+//                }
+//            });
         }
+        seekBar.setMax(musicService.getDuration()/1000);
     }
 
     private void setImage() {
@@ -764,9 +767,16 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
 
 ////        Toast.makeText(this,"Connected"+musicService,Toast.LENGTH_SHORT).show();
 //        play();
-        musicService.playMedia(position);
+//        musicService.playMedia(position);
 
-        musicService.showNotification(R.drawable.pause);
+//        musicService.showNotification(R.drawable.pause);
+        if(rr==-1){
+
+            musicService.showNotification(R.drawable.play);
+            rr=0;
+        }else{
+            musicService.showNotification(R.drawable.pause);
+        }
 
     }
 

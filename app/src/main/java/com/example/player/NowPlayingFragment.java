@@ -57,8 +57,10 @@ public class NowPlayingFragment extends Fragment {
         mediaSessionCompat=new MediaSessionCompat(getContext(),"My Audio");
         view.setOnClickListener(view1 -> {
             Intent i = new Intent(getContext(),PlayerActivity.class);
+//            if((musicService==null)){
 
-            i.putExtra("position",sharedPreferences.getInt("POSITION",0));
+                i.putExtra("position",sharedPreferences.getInt("POSITION",0));
+//            }
             i.putExtra("rrr",-1);
             startActivity(i);
             getContext().startActivity(i);
@@ -96,6 +98,7 @@ public class NowPlayingFragment extends Fragment {
 
             }
             if(PATH_TO_FRAG!=null){
+
                 try{
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
 //                        Log.e("TAGinini", "set image!"+position+" "+listSongs.size());

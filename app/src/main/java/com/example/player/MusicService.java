@@ -64,15 +64,17 @@ public class MusicService  extends Service implements MediaPlayer.OnCompletionLi
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         int myPosition = intent.getIntExtra("service",-1);
+        int rr = intent.getIntExtra("rr",0);
         String actionName=intent.getStringExtra("ActionName");
-//        if(mediaPlayer==null){
-//            createMediaPlayer(myPosition);
-//        }
+        //                    Log.e("play",listSongs.size()+"");
 
-//        if(myPosition!=-1){
-//            Log.e("poiiii",myPosition+""+musicFiles);
-//            playMedia(myPosition);
-//        }
+        if(mediaPlayer==null){
+            createMediaPlayer(myPosition);
+
+        }
+        if(rr!=-1){
+            playMedia(myPosition);
+        }
 
         if (actionName!=null){
             switch (actionName){
