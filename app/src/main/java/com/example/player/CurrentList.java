@@ -66,7 +66,7 @@ public class CurrentList extends Fragment {
 //        }
         if (musicFiles != null) {
             adapter = new MusicAdapter(getContext(), musicFiles);
-            adapter.setHasStableIds(true);
+//            adapter.setHasStableIds(true);
             recyclerView.setAdapter(adapter);
             recyclerView.setNestedScrollingEnabled(false);
             recyclerView.setItemViewCacheSize(20);

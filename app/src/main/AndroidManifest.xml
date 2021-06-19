@@ -17,7 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Player">
         <activity android:name=".AlbumDetails"></activity>
-        <activity android:name=".PlayerActivity" />
+        <activity android:name=".PlayerActivity" >
+
+        </activity>
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"

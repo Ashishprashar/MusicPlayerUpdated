@@ -32,7 +32,7 @@ import static com.example.player.PlayerActivity.listSongs;
 
 public class MusicService  extends Service implements MediaPlayer.OnCompletionListener{
     IBinder mBinder = new MyBinder();
-     MediaPlayer mediaPlayer;
+     static MediaPlayer mediaPlayer;
     Uri uri;
     int position=-1;
     ArrayList<MusicFiles> musicFiles=new ArrayList<>();
@@ -84,6 +84,7 @@ public class MusicService  extends Service implements MediaPlayer.OnCompletionLi
                     if(actionPlaying!=null){
                         actionPlaying.playPauseClicked();
                     }
+
 
                     break;
                 case "next":

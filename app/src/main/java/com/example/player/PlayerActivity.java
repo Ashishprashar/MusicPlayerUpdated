@@ -273,7 +273,7 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
 
         musicService.createMediaPlayer(position);
         musicService.start();
-
+        isPlayin=1;
         seekBar.setMax(musicService.getDuration()/1000);
         total.setText(listSongs.get(position).getDuration());
 
@@ -427,18 +427,18 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
             }
             play();
             musicService.showNotification(R.drawable.pause);
-
-            PlayerActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if(musicService!=null){
-                        int currentPosition=musicService.getCurrentPosition()/1000;
-                        seekBar.setProgress(currentPosition);
-
-                    }
-                    handler.postDelayed(this,1000);
-                }
-            });
+//
+//            PlayerActivity.this.runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    if(musicService!=null){
+//                        int currentPosition=musicService.getCurrentPosition()/1000;
+//                        seekBar.setProgress(currentPosition);
+//
+//                    }
+//                    handler.postDelayed(this,1000);
+//                }
+//            });
             musicService.onCompleted();
 
         }
@@ -458,17 +458,17 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
 
             }
             play();
-            PlayerActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if(musicService!=null){
-                        int currentPosition=musicService.getCurrentPosition()/1000;
-                        seekBar.setProgress(currentPosition);
-
-                    }
-                    handler.postDelayed(this,1000);
-                }
-            });
+//            PlayerActivity.this.runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    if(musicService!=null){
+//                        int currentPosition=musicService.getCurrentPosition()/1000;
+//                        seekBar.setProgress(currentPosition);
+//
+//                    }
+//                    handler.postDelayed(this,1000);
+//                }
+//            });
             musicService.onCompleted();
             musicService.showNotification(R.drawable.pause);
 
@@ -524,18 +524,18 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
             }
             play();
             musicService.showNotification(R.drawable.pause);
-
-            PlayerActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if(musicService!=null){
-                        int currentPosition=musicService.getCurrentPosition()/1000;
-                        seekBar.setProgress(currentPosition);
-
-                    }
-                    handler.postDelayed(this,1000);
-                }
-            });
+//
+//            PlayerActivity.this.runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    if(musicService!=null){
+//                        int currentPosition=musicService.getCurrentPosition()/1000;
+//                        seekBar.setProgress(currentPosition);
+//
+//                    }
+//                    handler.postDelayed(this,1000);
+//                }
+//            });
 
         }
         else{
@@ -572,17 +572,17 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
 //            setImage();
 //            setTexts();
 //            seekBar.setMax(mediaPlayer.getDuration()/1000);
-            PlayerActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if(musicService!=null){
-                        int currentPosition=musicService.getCurrentPosition()/1000;
-                        seekBar.setProgress(currentPosition);
-
-                    }
-                    handler.postDelayed(this,1000);
-                }
-            });
+//            PlayerActivity.this.runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    if(musicService!=null){
+//                        int currentPosition=musicService.getCurrentPosition()/1000;
+//                        seekBar.setProgress(currentPosition);
+//
+//                    }
+//                    handler.postDelayed(this,1000);
+//                }
+//            });
 
         }
         songArtist1.setText(listSongs.get(position).getArtist());
@@ -604,43 +604,26 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
 //        };
 //        playPauseThread.start();
     }
-
+    int isPlayin=0;
+    @Override
     public void playPauseClicked() {
         saveData();
 
-        if(musicService.isPlaying()){
+        if(isPlayin==1){
             playPause.setImageResource(R.drawable.play);
             musicService.showNotification(R.drawable.play);
 
             musicService.pause();
-            //            PlayerActivity.this.runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    if(musicService!=null){
-//                        int currentPosition=musicService.getCurrentPosition()/1000;
-//                        seekBar.setProgress(currentPosition);
-//
-//                    }
-//                    handler.postDelayed(this,1000);
-//                }
-//            });
+            isPlayin=0;
+
         }
         else{
             playPause.setImageResource(R.drawable.pause);
+            Log.e("notyyy", "skncdkjcs");
+isPlayin=1;
+            musicService.start();
             musicService.showNotification(R.drawable.pause);
 
-            musicService.start();
-            //            PlayerActivity.this.runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    if(musicService!=null){
-//                        int currentPosition=musicService.getCurrentPosition()/1000;
-//                        seekBar.setProgress(currentPosition);
-//
-//                    }
-//                    handler.postDelayed(this,1000);
-//                }
-//            });
         }
         seekBar.setMax(musicService.getDuration()/1000);
     }
